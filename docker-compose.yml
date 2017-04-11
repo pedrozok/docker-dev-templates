@@ -1,0 +1,24 @@
+version: '3'
+services:
+  auth_service:
+    build: ./Hapi-Auth
+    volumes:
+      - ./Hapi-Auth:/usr/src/app # map the container app src to the dir on your local drive
+    ports:
+      - "3030:3030"
+    links:
+      - mongodb
+  frontent:
+    build: ./React-Redux-Auth
+    volumes:
+      - ./React-Redux-Auth:/usr/src/app
+    ports:
+      - "3000:3000"
+    links:
+      - auth
+  mongodb:
+    image: mongo
+    volumes:
+      - ./mongodb:/data/db # map the data/db to your local drive so that the storage is permanent
+    ports:
+      - "27017:27017"
